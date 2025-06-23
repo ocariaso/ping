@@ -1,0 +1,20 @@
+@layout.app({ title: 'Edit post' })
+  <div class="max-w-2xl mx-auto px-6 py-10">
+    <form class="space-y-4 bg-gray-800 p-6 rounded-lg shadow-xl" action="{{ `/posts/${post.id}?_method=PATCH` }}" method="post">
+      {{ csrfField() }}
+
+      <div>
+        <textarea class="py-3 px-4 block w-full bg-gray-700 text-gray-200 border-gray-600 rounded-lg text-sm focus:border-purple-500 focus:ring-purple-500 disabled:opacity-50 disabled:pointer-events-none placeholder-gray-400 resize-none" name="content" required rows="3" placeholder="Share an update...">{{ old('content') || post.content }}</textarea>
+
+        @inputError('content')
+          <p class="text-xs text-red-400 mt-2">{{ $messages }}</p>
+        @end
+      </div>
+
+      <button
+        class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-purple-600 text-white hover:bg-purple-700 disabled:opacity-50 disabled:pointer-events-none shadow-md">
+        Save
+      </button>
+    </form>
+  </div>
+@end

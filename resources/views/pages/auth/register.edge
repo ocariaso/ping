@@ -1,0 +1,77 @@
+@layout.app({title: 'Sign Up'})
+  <div class="w-full max-w-lg mx-auto p-6">
+    <div class="mt-7 bg-gray-800 border border-gray-700 rounded-xl shadow-sm">
+      <div class="p-4 sm:p-7">
+        <div class="text-center">
+          <h1 class="block text-2xl font-bold text-gray-100">Sign Up</h1>
+          <p class="mt-2 text-sm text-gray-400">
+            Already have an account?
+            <a class="text-blue-500 hover:text-blue-400" href="/login">Sign In</a>
+          </p>
+        </div>
+
+        <div class="mt-5">
+          <form action="/register" method="post">
+            {{ csrfField() }}
+
+            <div class="grid gap-y-4">
+              <div>
+                <label for="name" class="block text-sm font-medium mb-2 text-gray-200">Name</label>
+                <input type="text" id="name"
+                  class="py-3 px-4 block w-full bg-gray-700 text-gray-200 border-gray-600 rounded-lg text-sm focus:border-purple-500 focus:ring-purple-500 disabled:opacity-50 disabled:pointer-events-none placeholder-gray-400"
+                  name="name" required value="{{ old('name') || '' }}">
+              </div>
+
+              <div>
+                <label for="username" class="block text-sm font-medium mb-2 text-gray-200">Username</label>
+                <input type="text" id="username"
+                  class="py-3 px-4 block w-full bg-gray-700 text-gray-200 border-gray-600 rounded-lg text-sm focus:border-purple-500 focus:ring-purple-500 disabled:opacity-50 disabled:pointer-events-none placeholder-gray-400"
+                  name="username" required value="{{ old('username') || '' }}">
+
+                @inputError('username')
+                  <p class="text-xs text-red-400 mt-2">{{ $messages }}</p>
+                @end
+              </div>
+
+              <div>
+                <label for="email" class="block text-sm font-medium mb-2 text-gray-200">Email</label>
+                <input type="email" id="email"
+                  class="py-3 px-4 block w-full bg-gray-700 text-gray-200 border-gray-600 rounded-lg text-sm focus:border-purple-500 focus:ring-purple-500 disabled:opacity-50 disabled:pointer-events-none placeholder-gray-400"
+                  name="email" required value="{{ old('email') || '' }}">
+
+                @inputError('email')
+                  <p class="text-xs text-red-400 mt-2">{{ $messages }}</p>
+                @end
+              </div>
+
+              <div>
+                <label for="password" class="block text-sm font-medium mb-2 text-gray-200">Password</label>
+                <input type="password" id="password"
+                  class="py-3 px-4 block w-full bg-gray-700 text-gray-200 border-gray-600 rounded-lg text-sm focus:border-purple-500 focus:ring-purple-500 disabled:opacity-50 disabled:pointer-events-none placeholder-gray-400"
+                  name="password" required minlength="8">
+
+                @inputError('password')
+                  <p class="text-xs text-red-400 mt-2">{{ $messages }}</p>
+                @end
+              </div>
+
+              <div>
+                <label for="password_confirmation" class="block text-sm font-medium mb-2 text-gray-200">Confirm password</label>
+                <input type="password" id="password_confirmation"
+                  class="py-3 px-4 block w-full bg-gray-700 text-gray-200 border-gray-600 rounded-lg text-sm focus:border-purple-500 focus:ring-purple-500 disabled:opacity-50 disabled:pointer-events-none placeholder-gray-400"
+                  name="password_confirmation" required minlength="8">
+              </div>
+
+              <div>
+                <button
+                  class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-purple-600 text-white hover:bg-purple-700 disabled:opacity-50 disabled:pointer-events-none shadow-md">
+                  Sign Up
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+@end

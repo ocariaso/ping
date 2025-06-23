@@ -1,0 +1,65 @@
+import { DateTime } from 'luxon'
+import hash from '@adonisjs/core/services/hash'
+import { compose } from '@adonisjs/core/helpers'
+import { BaseModel, column, hasMany, manyToMany } from '@adonisjs/lucid/orm'
+import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
+
+// --- DEFINITIVE IMPORTS FOR API TOKENS ---
+import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
+import type { AccessTokensProviderContract } from '@adonisjs/auth/types/access_tokens'
+import type { LucidModel } from '@adonisjs/lucid/types/model'
+// Removed: import type { LucidTokenable } from '@adonisjs/auth/types' // Removed as it caused type resolution issues
+// --- END OF DEFINITIVE IMPORTS ---
+
+import Post from './post.js'
+import type { HasMany, ManyToMany } from '@adonisjs/lucid/types/relations'
+
+const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
+  uids: ['email'],
+  passwordColumnName: 'password',
+})
+
+// Removed: `implements LucidTokenable<'accessTokens'>` from the class definition
+export default class User extends compose(BaseModel, AuthFinder) {
+  @column({ isPrimary: true })
+  declare id: number
+
+  @column()
+  declare name: string
+
+  @column()
+  declare username: string
+
+  @column()
+  declare email: string
+
+  @column({ serializeAs: null })
+  declare password: string
+
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+
+  // API TOKENS SETUP
+  static accessTokens = DbAccessTokensProvider.forModel(User) as AccessTokensProviderContract<typeof User & LucidModel>
+
+  @hasMany(() => Post)
+  declare posts: HasMany<typeof Post>
+
+  @manyToMany(() => Post, {
+    pivotTimestamps: true,
+  })
+  declare likes: ManyToMany<typeof Post>
+
+  get handle(): string {
+    return `@${this.username}`
+  }
+
+  async hasLikedPost(postId: number): Promise<boolean> {
+    const self = this as User
+
+    return !!(await self.related('likes').query().where('posts.id', postId).first())
+  }
+}
