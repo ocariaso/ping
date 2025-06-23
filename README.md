@@ -14,3 +14,36 @@ A microblogging application built with AdonisJS v6, Tailwind CSS, and PostgreSQL
 - **Social Authentication**: Integrate sign-in via platforms like Google.
 - **Media Posts**: Support for including images and videos in posts.
 - **Profile Pictures**: Personalize user profiles with avatars.
+
+## Setup and Running the Program
+### 1. Install Dependencies
+``` sh
+npm install
+```
+
+### 2. Create a copy of the example environment file:
+``` sh
+cp .env.example .env
+```
+
+### 3. Update environment variables 
+
+### 4. Generate Application Key
+``` sh
+node ace generate:key
+```
+
+### 5. Run Database Migrations
+``` sh
+node ace migration:run
+```
+
+### 6. Start Server
+``` sh
+node ace serve --watch
+```
+
+### 7. Access the Application
+``` sh
+http://localhost:3333
+```
