@@ -14,6 +14,7 @@ A microblogging application built with AdonisJS v6, Tailwind CSS, and PostgreSQL
 - **Social Authentication**: Integrate sign-in via platforms like Google.
 - **Media Posts**: Support for including images and videos in posts.
 - **Profile Pictures**: Personalize user profiles with avatars.
+- **Forgot Password**: Account Recovery
 
 ## Setup and Running the Program
 ### 1. Install Dependencies
