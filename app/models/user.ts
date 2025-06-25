@@ -4,12 +4,9 @@ import { compose } from '@adonisjs/core/helpers'
 import { BaseModel, column, hasMany, manyToMany } from '@adonisjs/lucid/orm'
 import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 
-// --- DEFINITIVE IMPORTS FOR API TOKENS ---
 import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
 import type { AccessTokensProviderContract } from '@adonisjs/auth/types/access_tokens'
 import type { LucidModel } from '@adonisjs/lucid/types/model'
-// Removed: import type { LucidTokenable } from '@adonisjs/auth/types' // Removed as it caused type resolution issues
-// --- END OF DEFINITIVE IMPORTS ---
 
 import Post from './post.js'
 import type { HasMany, ManyToMany } from '@adonisjs/lucid/types/relations'
@@ -19,7 +16,6 @@ const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   passwordColumnName: 'password',
 })
 
-// Removed: `implements LucidTokenable<'accessTokens'>` from the class definition
 export default class User extends compose(BaseModel, AuthFinder) {
   @column({ isPrimary: true })
   declare id: number
@@ -42,7 +38,6 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
 
-  // API TOKENS SETUP
   static accessTokens = DbAccessTokensProvider.forModel(User) as AccessTokensProviderContract<typeof User & LucidModel>
 
   @hasMany(() => Post)
