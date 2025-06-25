@@ -42,13 +42,7 @@ router
 
 router.get(':username', [UserProfileController, 'index'])
 
-// --- PUBLIC API ROUTES ---
-// API Login Route (for Token-based Auth) - should be hit by POST /api/login
 router.post('api/login', [AuthController, 'apiLogin']).use(middleware.guest())
-// --- END PUBLIC API ROUTES ---
 
-
-// --- PROTECTED API ROUTES ---
 router.group(() => {
 }).prefix('api').use(middleware.auth({ guards: ['api'] }))
-// --- END PROTECTED API ROUTES ---
