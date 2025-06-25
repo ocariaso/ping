@@ -1,5 +1,3 @@
-// app/controllers/auth_controller.ts
-
 import User from '#models/user'
 import type { HttpContext } from '@adonisjs/core/http'
 import { DateTime } from 'luxon'
@@ -21,20 +19,16 @@ export default class AuthController {
     const { email, password } = await request.validateUsing(loginValidator)
 
     try {
-      // --- NEW APPROACH: Manually verify credentials, then log in ---
-      // This will throw an error if credentials are invalid (handled by the catch block)
+     
       const user = await User.verifyCredentials(email, password)
-
-      // Get the session guard instance
+      
       const webGuard: any = auth.use('web') // Keep 'any' for now, as types are problematic
 
-      // Log the user in using the session guard's login method
       await webGuard.login(user) // <-- Using .login() instead of .attempt()
 
       return response.redirect().toPath('/')
     } catch (error) {
-      // This catch block will handle errors from User.verifyCredentials (e.g., invalid credentials)
-      // or any other part of the login process.
+     
       if ((error as any).status === 400 || (error as any).status === 401) {
         return response.badRequest({ message: 'Invalid credentials' })
       }
